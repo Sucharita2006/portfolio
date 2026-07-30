@@ -3,8 +3,12 @@
 Fifteen questions. Each has a default I will use if you say nothing, so none of them stall the
 build except where marked **blocking**. Answer by number.
 
-**Answered in review, 30 July 2026:** 1 (a), 2 (a), 3 (a), 5 (b). Question 4 still open.
-Questions 6–15 are running on their stated defaults until told otherwise.
+**Answered in review, 30 July 2026:** 1 (a), 2 (a), 3 (a), 4 (a), 5 (b), 11 supplied, 12
+confirmed, 13 both public, 14 role completed. Questions 6–10 and 15 are running on their
+stated defaults until told otherwise.
+
+**New, opened after reading the résumé:** 16 (two case studies are missing the section the
+spec calls mandatory) and 17 (VERDE's `kind`). Question 16 is blocking Phase 6.
 
 ---
 
@@ -49,7 +53,7 @@ in Next 15. As it stands the script fails.
   reads as an omission. **← recommended**
 - (b) Delete the `lint` script. Section 7 only requires typecheck and build.
 
-### 4. The sub-100 KB JavaScript budget is not reachable. Amend it? — needed for Phase 10
+### 4. The sub-100 KB JavaScript budget is not reachable. Amend it? — **resolved: (a)**
 
 Section 1.6 sets a ceiling of 100 KB gzipped of client JavaScript. **Measured on the Phase 1
 scaffold — an empty page, no components, no client code at all — the shared bundle is
@@ -68,6 +72,13 @@ client components will add roughly 3–6 kB on top.
 - (c) Drop the App Router for the Pages Router, which has a smaller floor. Not recommended —
   it costs the server components that F1 and F5 are built on, which is most of the site's
   technical argument.
+
+**Resolved as (a).** The answer given was "use whatever is available on a free tier". Noting
+for the record that this budget is not a hosting-tier limit — Vercel's free tier imposes no
+JavaScript ceiling, and the 103 kB is React plus the App Router runtime, identical on every
+tier. Read as "take what the framework gives and don't pad it", which is (a): section 1.6
+becomes **under 115 KB gzipped, of which under 10 KB is site code**. Every phase document
+reports the measured number. Say so if you meant something else.
 
 ### 5. Where does the GitHub panel go? — **resolved: (b), `/about`**
 
@@ -129,7 +140,7 @@ Cost: one devDependency plus a ~150 MB browser download, and it never runs in pr
 
 **Default: no** — you check it visually and I fix what you report. Say the word and I add it.
 
-### 11. Résumé PDF
+### 11. Résumé PDF — **resolved, supplied**
 
 `public/resume.pdf` is referenced from the header, the footer, and `/about`, and does not
 exist. Until it does, three links 404.
@@ -141,26 +152,72 @@ exist. Until it does, three links 404.
 
 ## Content checks — please confirm, I will not change these myself
 
-### 12. Contact email address
+### 12. Contact email address — **resolved**
 
-`profile.ts` has `sucharita.chatterjee100@gmail.com`. Your account here is
-`sahilsahu7978@gmail.com`. The first is what the site will publish and where the contact form
-delivers. Confirm it is right.
+**Resolved.** `sucharita.chatterjee100@gmail.com`. Confirmed twice over: it is the address on
+the résumé, and it is the author of the `Initial commit` already on the remote. Also now set as
+this repository's local `user.email`, replacing the malformed `sucharita.chatterjee100@.com`
+that would have broken commit attribution.
 
-### 13. `github.com/Sucharita2006`
+### 13. `github.com/Sucharita2006` — **resolved**
 
-F5 fetches this account server-side, and two case studies link to
-`Sucharita2006/LegiTrack-AI` and `Sucharita2006/PayFlow`. If either repository is private the
-link 404s for a visitor. Confirm both are public, or the links come out.
+**Resolved: both public.** Links stay as written. Note that PayFlow has a source link only and
+no live URL, which matches the résumé — nothing missing there.
 
-### 14. Open Paws tense
+### 14. Open Paws tense — **resolved**
 
-`work.ts` gives the period as "May – Jul 2026". Today is 30 July 2026, so it is ending now or
-just ended. `profile.aboutParagraphs` says "The summer of 2026 I spent as an AI engineer
-intern" — past tense. If the role is still active, that sentence and the period both want
-adjusting. **This is prose, so I will not touch it without your words.**
+**Resolved: the role is completed.** The past tense already in `aboutParagraphs` is therefore
+correct, and "May – Jul 2026" is correct for a finished internship. No change made — the
+supplied prose was right.
 
 ### 15. Résumé link label
 
 Header and footer use `Résumé` with the accent. Keeping it — just flagging it is deliberate,
 since the mono wordmark plus this is what will overflow first at 360px.
+
+---
+
+## Opened after reading the résumé, 30 July 2026
+
+### 16. Two case studies are missing the section the spec calls mandatory — **blocking Phase 6**
+
+`BUILD_SPEC.md` F2: *"Each case study includes a section named 'The part that was actually
+hard'. That section is the reason the page exists — it is the only place on the site where
+engineering judgement is visible rather than asserted. It must not be cut for length."*
+
+Audited all four:
+
+| Case study | Sections | "The part that was actually hard" |
+| --- | --- | --- |
+| `open-paws` | 4 | present |
+| `legitrack-ai` | 4 | present |
+| `payflow` | 3 | **missing** |
+| `verde` | 2 | **missing** |
+
+So half the case studies are missing the thing the spec identifies as the whole point of the
+page. VERDE is also the thinnest entry at two sections against the others' four.
+
+I will not write these. Not because of a rule, but because what was actually hard is knowledge
+only you have — the résumé tells me what you built, not what fought back. Anything I invented
+here would be exactly the "clever abstraction she did not ask for" that section 9 warns is a
+liability in an interview.
+
+- **(a) You write both**, two or three paragraphs each, in the register of the two that exist.
+  Best outcome. **← recommended**
+- (b) I draft from résumé facts — PayFlow's three-level chain and Redis config cache, VERDE's
+  150+ combinations and zero-downtime deploys — and you correct or rewrite. Faster, but you
+  must read every line critically before it ships.
+- (c) Ship both without the section, as a deliberate exception recorded in the Phase 6
+  document.
+
+### 17. Is VERDE a project or a role?
+
+`work.ts` has `kind: "project"` with `org: "AARC — Code for Compassion"`. The résumé lists it
+under **Experience** as *"Web Developer (Selected Program Participant), Feb 2026 – Mar 2026"*.
+
+`kind` is not rendered anywhere in F1 or F2, so nothing changes visually today — but the two
+documents disagree, and a reader with both open may notice.
+
+**Default: leave it as `"project"`** and change nothing, since the field is unused. Say the
+word if you would rather it read as a role, which would also mean giving it a role-style
+subtitle like the Open Paws entry has.
