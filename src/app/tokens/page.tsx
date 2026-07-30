@@ -67,12 +67,12 @@ export default function TokensPage() {
 
         <div className="mt-8 space-y-8">
           <div>
-            <p className="eyebrow">Hero · Fraunces · clamp(3rem, 4.5rem) · opsz 48</p>
+            <p className="eyebrow">Hero · Fraunces · clamp(3rem, 4.5rem) · opsz 72 · wght 430</p>
             <p className="type-display text-hero mt-2">Handgloves 0123</p>
           </div>
 
           <div>
-            <p className="eyebrow">Section · Fraunces · 1.75rem · opsz 48</p>
+            <p className="eyebrow">Section · Fraunces · 1.75rem · opsz 72 · wght 430</p>
             <p className="type-display text-section mt-2">
               Handgloves &amp; hairlines, 93.75%
             </p>

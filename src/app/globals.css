@@ -80,14 +80,17 @@ p {
    editorial rather than engineering, and at heading sizes the thins thinned out
    until titles were visually weaker than the body text under them.
 
-   So: moderate optical size, more weight. Still Fraunces, still has the WONK
-   descenders that keep it from being a generic transitional serif — but it now
-   reads confident rather than delicate. */
+   Settled after two passes. opsz 120 / weight 400 was too delicate; opsz 48 /
+   weight 500 overcorrected into heavy. Weight is the axis that carries that
+   complaint, so it comes back down near regular, and optical size goes back up
+   to buy back the refinement without returning to the extreme where the thins
+   disappear. Still Fraunces, still WONK 1 for the descenders that keep it from
+   being a generic transitional serif. */
 .type-display {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 48;
-  font-weight: 500;
-  letter-spacing: -0.021em;
+  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 72;
+  font-weight: 430;
+  letter-spacing: -0.024em;
 }
 
 /* Fraunces below about 2rem. A face set for display sizes falls apart when it is
