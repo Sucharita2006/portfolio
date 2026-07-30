@@ -19,11 +19,14 @@ import { StackTags } from "@/components/stack-tags";
 export function WorkRow({ item }: { item: WorkItem }) {
   return (
     <li className="relative border-b border-rule">
-      <div className="grid gap-5 py-8 md:grid-cols-[7.5rem_1fr] md:gap-8">
+      <div className="grid gap-5 py-9 md:grid-cols-[9rem_1fr] md:gap-10">
         <MetricTick value={item.metric.value} label={item.metric.label} />
 
         <div>
-          <h3 className="font-display text-[1.375rem] leading-snug">
+          {/* type-display-sm, not type-display: at this size the display setting
+              goes spindly and the title ends up visually weaker than the summary
+              beneath it, which inverts the hierarchy. */}
+          <h3 className="type-display-sm text-[1.5rem] leading-tight">
             <Link
               href={`/work/${item.slug}`}
               className="link-underline after:absolute after:inset-0 after:content-['']"
@@ -32,11 +35,13 @@ export function WorkRow({ item }: { item: WorkItem }) {
             </Link>
           </h3>
 
-          <p className="eyebrow mt-2">
+          <p className="eyebrow-meta mt-2.5">
             {item.subtitle} · {item.period}
           </p>
 
-          <p className="mt-3 max-w-[56ch] text-ink-soft">{item.summary}</p>
+          <p className="mt-4 max-w-[58ch] text-[0.9375rem] leading-relaxed text-ink-soft">
+            {item.summary}
+          </p>
 
           {/* Five is F1's limit. The full list is on the case study page. */}
           <StackTags items={item.stack} limit={5} className="mt-4" />

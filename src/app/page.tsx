@@ -17,31 +17,41 @@ export default function Home() {
         delay the one paint the performance budget is measured on — to animate
         something that is already on screen before anyone can scroll.
       */}
-      <section className="shell pt-16 pb-20 md:pt-24 md:pb-28">
-        <h1 className="font-display text-hero">
+      <section className="shell pt-14 pb-16 md:pt-20 md:pb-24">
+        <h1 className="type-display text-hero">
           <span className="block">{profile.heroLead}</span>
           <span className="block">{profile.heroTrail}</span>
         </h1>
 
-        <p className="mt-8 max-w-[52ch] text-ink-soft">{profile.heroBody}</p>
+        <p className="mt-8 max-w-[54ch] text-[1.0625rem] leading-relaxed text-ink-soft">
+          {profile.heroBody}
+        </p>
 
-        {/* The `note` on each fact is deliberately not shown here — three facts
-            with three footnotes would compete with the hero statement. They are
-            rendered on /about, where there is room to read them. */}
-        <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-2 font-mono text-sm">
+        {/*
+          Three facts as a hairline-ruled data row rather than one inline line.
+          Reversing my Phase 5 call to hold the notes back for /about: on screen
+          the hero left the right half of a 64rem column empty, and the notes are
+          the substance that fills it — "branch rank holder" is the part of "9.79"
+          a reader actually wants. Ruled columns also echo the metric ticks below,
+          so the page has one rhythm instead of two.
+        */}
+        <ul className="mt-12 grid max-w-3xl gap-x-10 gap-y-7 sm:grid-cols-3">
           {profile.facts.map((fact) => (
-            <li key={fact.label}>
-              <span className="text-ink">{fact.value}</span>{" "}
-              <span className="text-muted">{fact.label}</span>
+            <li key={fact.label} className="border-t border-rule-strong pt-4">
+              <p className="font-mono text-[1.375rem] leading-none text-ink">
+                {fact.value}
+              </p>
+              <p className="eyebrow mt-2.5">{fact.label}</p>
+              <p className="mt-2 text-sm leading-snug text-muted">{fact.note}</p>
             </li>
           ))}
         </ul>
       </section>
 
       <Reveal>
-        <section id="work" className="shell border-t border-rule py-16 md:py-24">
+        <section id="work" className="shell border-t border-rule py-16 md:py-20">
           <SectionHeading>Selected work</SectionHeading>
-          <ul className="mt-10 border-t border-rule">
+          <ul className="mt-8 border-t border-rule">
             {work.map((item) => (
               <WorkRow key={item.slug} item={item} />
             ))}
@@ -49,22 +59,32 @@ export default function Home() {
         </section>
       </Reveal>
 
+      {/*
+        The one raised surface on the page. `paper-raised` is barely a shade off
+        `paper`, which is the point — eight screens of a single flat grey read as
+        unconsidered, and a full-bleed band gives the longest section on the page
+        an edge without introducing a card.
+      */}
       <Reveal>
-        <section id="capabilities" className="shell border-t border-rule py-16 md:py-24">
-          <SectionHeading>Capabilities</SectionHeading>
-          <div className="mt-10 grid gap-8 sm:grid-cols-2">
-            {profile.skills.map((group) => (
-              <div key={group.group}>
-                <h3 className="font-mono text-sm text-ink">{group.group}</h3>
-                <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-ink-soft">
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
+        <div className="border-y border-rule bg-paper-raised">
+          <section id="capabilities" className="shell py-16 md:py-20">
+            <SectionHeading>Capabilities</SectionHeading>
+            <div className="mt-8 grid gap-x-12 gap-y-9 sm:grid-cols-2">
+              {profile.skills.map((group) => (
+                <div key={group.group}>
+                  <h3 className="font-mono text-[0.9375rem] font-medium text-ink">
+                    {group.group}
+                  </h3>
+                  <ul className="dot-list mt-2.5 flex flex-wrap gap-x-2 gap-y-1 text-[0.9375rem] text-ink-soft">
+                    {group.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
       </Reveal>
     </>
   );

@@ -13,7 +13,7 @@ export function SiteFooter() {
       <div className="shell py-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="font-display text-2xl">Let&rsquo;s talk.</p>
+            <p className="type-display-sm text-2xl">Let&rsquo;s talk.</p>
             <p className="mt-1 text-sm text-muted">
               Open to software engineering internships and new-grad roles.
             </p>

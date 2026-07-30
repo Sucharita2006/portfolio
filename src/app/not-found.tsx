@@ -11,7 +11,7 @@ export default function NotFound() {
   return (
     <div className="shell py-24">
       <p className="eyebrow">Error 404</p>
-      <h1 className="font-display mt-4 text-section">This page doesn&rsquo;t exist.</h1>
+      <h1 className="type-display-sm mt-4 text-section">This page doesn&rsquo;t exist.</h1>
       <p className="mt-4 max-w-[52ch] text-ink-soft">
         The address may be mistyped, or it may have pointed at something that has since
         moved. Everything on the site is one of these:

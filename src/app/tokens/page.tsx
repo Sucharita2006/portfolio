@@ -61,20 +61,30 @@ export default function TokensPage() {
       <h1 className="eyebrow">Token specimen — development only</h1>
 
       <section aria-labelledby="type" className="mt-12">
-        <h2 id="type" className="font-display text-section">
+        <h2 id="type" className="type-display text-section">
           Type scale
         </h2>
 
         <div className="mt-8 space-y-8">
           <div>
-            <p className="eyebrow">Hero · Fraunces · clamp(3.5rem, 5rem)</p>
-            <p className="font-display text-hero mt-2">Handgloves 0123</p>
+            <p className="eyebrow">Hero · Fraunces · clamp(3rem, 4.5rem) · opsz 48</p>
+            <p className="type-display text-hero mt-2">Handgloves 0123</p>
           </div>
 
           <div>
-            <p className="eyebrow">Section · Fraunces · 1.75rem</p>
-            <p className="font-display text-section mt-2">
+            <p className="eyebrow">Section · Fraunces · 1.75rem · opsz 48</p>
+            <p className="type-display text-section mt-2">
               Handgloves &amp; hairlines, 93.75%
+            </p>
+          </div>
+
+          <div>
+            <p className="eyebrow">
+              Heading · Fraunces · 1.5rem · opsz 16 — compare the thins against the line
+              above
+            </p>
+            <p className="type-display-sm mt-2 text-[1.5rem]">
+              Legislative monitoring for animal advocacy
             </p>
           </div>
 
@@ -103,7 +113,7 @@ export default function TokensPage() {
       </section>
 
       <section aria-labelledby="color" className="mt-16">
-        <h2 id="color" className="font-display text-section">
+        <h2 id="color" className="type-display text-section">
           Colour
         </h2>
         <p className="mt-2 max-w-[52ch] text-sm text-ink-soft">
@@ -134,7 +144,7 @@ export default function TokensPage() {
       </section>
 
       <section aria-labelledby="focus" className="mt-16">
-        <h2 id="focus" className="font-display text-section">
+        <h2 id="focus" className="type-display text-section">
           Focus and motion
         </h2>
         <p className="mt-2 max-w-[52ch] text-sm text-ink-soft">

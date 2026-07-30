@@ -22,10 +22,12 @@
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  /* Fluid between the brief's 3.5rem floor and 5rem ceiling, reaching the
-     ceiling around 1170px. No breakpoint needed for it. */
-  --text-hero: clamp(3.5rem, 2.25rem + 3.75vw, 5rem);
-  --text-hero--line-height: 1.02;
+  /* The brief specified 3.5–5rem. Lowered a half-step at both ends: at 5rem the
+     hero dwarfed everything under it and the jump from hero to 1rem body was a
+     hole rather than a hierarchy, and 3.5rem is punishing at 360px. Reaches the
+     ceiling around 1140px. No breakpoint needed for it. */
+  --text-hero: clamp(3rem, 2rem + 3.5vw, 4.5rem);
+  --text-hero--line-height: 1.08;
   --text-section: 1.75rem;
   --text-section--line-height: 1.25;
   --text-eyebrow: 0.6875rem;
@@ -72,14 +74,31 @@ p {
   padding-inline: clamp(1.5rem, 1rem + 2vw, 2.5rem);
 }
 
-/* Fraunces is variable: dial optical size up and softness down so the display
-   face reads sharp rather than friendly. `wonk` keeps a little character in the
-   descenders so it doesn't collapse into a generic transitional serif. */
-.font-display {
+/* Fraunces is variable. `opsz` is the axis that matters most here: high values
+   push it to its display extreme, where stroke contrast is extreme and the thins
+   go to hairlines. The brief asked for opsz 120, which on screen read as fashion
+   editorial rather than engineering, and at heading sizes the thins thinned out
+   until titles were visually weaker than the body text under them.
+
+   So: moderate optical size, more weight. Still Fraunces, still has the WONK
+   descenders that keep it from being a generic transitional serif — but it now
+   reads confident rather than delicate. */
+.type-display {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 120;
-  font-weight: 400;
-  letter-spacing: -0.018em;
+  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 48;
+  font-weight: 500;
+  letter-spacing: -0.021em;
+}
+
+/* Fraunces below about 2rem. A face set for display sizes falls apart when it is
+   shrunk: the same contrast that looks elegant at 72px looks broken at 24px.
+   Lower optical size thickens the thins, and the extra weight buys back the
+   presence lost by not being large. */
+.type-display-sm {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 16;
+  font-weight: 600;
+  letter-spacing: -0.011em;
 }
 
 .eyebrow {
@@ -90,8 +109,30 @@ p {
   color: var(--color-muted);
 }
 
+/* The same mono label at a tracking that survives a long line. 0.14em is right
+   for "SELECTED WORK" and turns a 45-character subtitle into a smear. */
+.eyebrow-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
 .rule {
   border-top: 1px solid var(--color-rule);
+}
+
+/* Wrapped inline lists where the items are themselves multi-word. Without a
+   separator, "Data structures & algorithms Object-oriented programming DBMS"
+   is one unparseable string — whitespace alone cannot show where an item ends
+   when the items contain whitespace. The dot is a separator, not content, so it
+   is generated rather than written into the markup and stays out of the
+   accessibility tree. */
+.dot-list > li + li::before {
+  content: "·";
+  margin-inline-end: 0.5rem;
+  color: var(--color-rule-strong);
 }
 
 /* Underline that grows from the left on hover. The only decorative motion on
