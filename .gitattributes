@@ -1,0 +1,7 @@
+# Normalise to LF in the repository and on checkout. Authored on Windows, built
+# on Linux — without this, line endings differ between the two and every diff
+# picks up noise.
+* text=auto eol=lf
+*.pdf binary
+*.png binary
+*.ttf binary

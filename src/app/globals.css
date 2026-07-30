@@ -1,0 +1,3 @@
+/* Phase 1 holds only the Tailwind import. The @theme token block, the three
+   font faces, and the base styles arrive in Phase 2. */
+@import "tailwindcss";
