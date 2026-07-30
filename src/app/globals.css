@@ -1,3 +1,166 @@
-/* Phase 1 holds only the Tailwind import. The @theme token block, the three
-   font faces, and the base styles arrive in Phase 2. */
 @import "tailwindcss";
+
+/* Design tokens. DESIGN_BRIEF.md is the source of truth for every value here.
+   Tailwind v4 is CSS-first, so this block is the whole configuration — there is
+   no tailwind.config.js to keep in sync with it. */
+@theme {
+  /* Cool slate, near-monochrome, one accent. Deliberately not warm. */
+  --color-paper: #f2f3f4;
+  --color-paper-raised: #fbfbfc;
+  --color-ink: #101319;
+  --color-ink-soft: #3b414c;
+  /* Brief says #6D7480. That measures 4.24:1 on paper and every use of this
+     token is 11–14px text, so it fails the 4.5:1 floor F8 sets. Darkened two
+     steps in the same hue to 4.68:1. Approved in review; brief updated. */
+  --color-muted: #676d79;
+  --color-rule: #dcdee2;
+  --color-rule-strong: #c3c7cd;
+  --color-marine: #243fa8;
+  --color-marine-soft: #e6e9f6;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* Fluid between the brief's 3.5rem floor and 5rem ceiling, reaching the
+     ceiling around 1170px. No breakpoint needed for it. */
+  --text-hero: clamp(3.5rem, 2.25rem + 3.75vw, 5rem);
+  --text-hero--line-height: 1.02;
+  --text-section: 1.75rem;
+  --text-section--line-height: 1.25;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1.4;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Avoids single-word last lines in body copy. Ignored by browsers that do not
+   support it, which costs nothing. */
+p {
+  text-wrap: pretty;
+}
+
+/* The header is sticky, so an in-page anchor would otherwise land underneath it.
+   :where() keeps specificity at zero so any element can override this. */
+:where([id]) {
+  scroll-margin-top: 5rem;
+}
+
+/* Content column: 64rem maximum, page padding fluid from 1.5rem to 2.5rem.
+   One rule instead of `mx-auto max-w-5xl px-6 lg:px-10` repeated on every
+   section wrapper on the site. */
+.shell {
+  margin-inline: auto;
+  max-width: 64rem;
+  padding-inline: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+/* Fraunces is variable: dial optical size up and softness down so the display
+   face reads sharp rather than friendly. `wonk` keeps a little character in the
+   descenders so it doesn't collapse into a generic transitional serif. */
+.font-display {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 120;
+  font-weight: 400;
+  letter-spacing: -0.018em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.rule {
+  border-top: 1px solid var(--color-rule);
+}
+
+/* Underline that grows from the left on hover. The only decorative motion on
+   the site, and it's attached to something the reader can act on. */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  padding-bottom: 1px;
+}
+
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.reveal-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Without this, a reader whose JavaScript never runs — disabled, blocked, or a
+   hydration error — gets a page that is invisible to them while still being
+   full of text to a crawler. The reveal is decoration; the content is not. */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+::selection {
+  background: var(--color-marine);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-marine);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .link-underline {
+    transition: none;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+}

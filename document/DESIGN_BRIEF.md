@@ -52,7 +52,7 @@ Cool slate, near-monochrome, one accent used sparingly. Deliberately not warm.
 | `paper-raised`| `#FBFBFC` | Cards, raised surfaces                    |
 | `ink`         | `#101319` | Primary text                              |
 | `ink-soft`    | `#3B414C` | Secondary text                            |
-| `muted`       | `#6D7480` | Metadata, captions                        |
+| `muted`       | `#676D79` | Metadata, captions                        |
 | `rule`        | `#DCDEE2` | Hairlines                                 |
 | `rule-strong` | `#C3C7CD` | Emphasised dividers                       |
 | `marine`      | `#243FA8` | Links, focus rings, metric ticks. Only.   |
@@ -60,6 +60,16 @@ Cool slate, near-monochrome, one accent used sparingly. Deliberately not warm.
 
 The accent appears on interactive elements and metric ticks. It never fills a
 hero, a button block, or a section background.
+
+> **Amended in review, 30 July 2026.** `muted` was `#6D7480`. Measured against
+> `paper`, that is 4.24:1, and every use of the token is 11–14px text, so it
+> fails the 4.5:1 floor the quality section sets. `#676D79` is 4.68:1 — two
+> steps darker in the same hue.
+>
+> Ratios against `paper`, computed by `/tokens` rather than by hand: `ink`
+> 16.74:1, `ink-soft` 9.24:1, `muted` 4.68:1, `marine` 8.04:1. White on
+> `marine` is 8.93:1. `rule` 1.21:1, `rule-strong` 1.53:1 and `marine-soft`
+> 1.09:1 are hairlines and tints — decorative, never carrying text.
 
 ### Type
 

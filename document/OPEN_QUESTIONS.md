@@ -3,11 +3,14 @@
 Fifteen questions. Each has a default I will use if you say nothing, so none of them stall the
 build except where marked **blocking**. Answer by number.
 
+**Answered in review, 30 July 2026:** 1 (a), 2 (a), 3 (a), 5 (b). Question 4 still open.
+Questions 6–15 are running on their stated defaults until told otherwise.
+
 ---
 
 ## Blocking — needed before the phase named
 
-### 1. `muted` fails contrast. Change the token? — needed for Phase 2
+### 1. `muted` fails contrast. Change the token? — **resolved: (a)**
 
 `muted #6D7480` on `paper #F2F3F4` measures **4.24:1**. F8 requires 4.5:1 for body text and
 Lighthouse accessibility 100. `muted` colours every eyebrow, caption, and metadata line, all
@@ -19,7 +22,7 @@ at 11–14px, so this will fail the audit you set as non-negotiable.
 - (c) Keep `#6D7480` for decorative use only and introduce a darker token for text — adds a
   token and a rule about which to use where.
 
-### 2. Tests and CI as a new Phase 9? — needed before Phase 9
+### 2. Tests and CI as a new Phase 9? — **resolved: (a)**
 
 Adding roughly 18 tests over `validation`, `rate-limit`, `hash`, and `github`, plus a GitHub
 Actions workflow running typecheck, test, and build. **Zero new dependencies** — Node 24 runs
@@ -36,7 +39,7 @@ looking at draws a conclusion you did not intend.
 If `node --test` with native TypeScript gives trouble, may I add `vitest` as one
 devDependency as a fallback? **Default: yes, ask again first.**
 
-### 3. `npm run lint` is broken. Add ESLint or drop the script? — needed for Phase 1
+### 3. `npm run lint` is broken. Add ESLint or drop the script? — **resolved: (a)**
 
 The starter has a `lint` script, no ESLint dependency, no config, and `next lint` is deprecated
 in Next 15. As it stands the script fails.
@@ -66,7 +69,7 @@ client components will add roughly 3–6 kB on top.
   it costs the server components that F1 and F5 are built on, which is most of the site's
   technical argument.
 
-### 5. Where does the GitHub panel go? — needed for Phase 8
+### 5. Where does the GitHub panel go? — **resolved: (b), `/about`**
 
 F1 lists four homepage sections and GitHub is not one of them, but F1 says the homepage
 revalidates hourly "because of F5".
@@ -76,6 +79,10 @@ revalidates hourly "because of F5".
 - (b) `/about`, after education and awards. Supplementary content in a supplementary place;
   the homepage stays tight. The homepage then does not need hourly revalidation.
 - (c) Both.
+
+**Consequence of (b):** the homepage no longer has an hourly-revalidating dependency, so it
+becomes fully static with no `revalidate` at all, and `/about` takes `export const revalidate =
+3600`. F1's "static, revalidated hourly (because of F5)" is amended to plain static.
 
 ---
 
