@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { profile } from "@/content/profile";
+import { db } from "@/db";
+import { contactSubmissions } from "@/db/schema";
 import { contactSchema, fieldErrors } from "@/lib/validation";
 import { clientIp, hashIp } from "@/lib/hash";
 import { take } from "@/lib/rate-limit";
@@ -65,6 +67,7 @@ export async function POST(request: Request) {
 
   const { name, email, message } = parsed.data;
   const apiKey = process.env.RESEND_API_KEY;
+  const userAgent = request.headers.get("user-agent");
 
   // Without a key the route still validates, still rate-limits, and still
   // returns 200 — it just logs instead of delivering. That is what makes the
@@ -73,6 +76,9 @@ export async function POST(request: Request) {
     console.info(
       `[contact] RESEND_API_KEY unset — not delivered. from=${email} name=${name} chars=${message.length}`,
     );
+    // Still stored, if storage exists. The console line vanishes with the
+    // process; the row does not.
+    await persist({ name, email, message, ipHash, userAgent, emailSent: false });
     return NextResponse.json({ ok: true });
   }
 
@@ -89,12 +95,45 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("[contact] resend rejected the message", error);
+      await persist({ name, email, message, ipHash, userAgent, emailSent: false });
       return NextResponse.json({ ok: false, error: SEND_FAILED }, { status: 500 });
     }
   } catch (cause) {
     console.error("[contact] delivery threw", cause);
+    await persist({ name, email, message, ipHash, userAgent, emailSent: false });
     return NextResponse.json({ ok: false, error: SEND_FAILED }, { status: 500 });
   }
 
+  await persist({ name, email, message, ipHash, userAgent, emailSent: true });
   return NextResponse.json({ ok: true });
+}
+
+/**
+ * Writes the submission if a database is configured, and never lets a storage
+ * problem change what the sender is told.
+ *
+ * Storing after the delivery attempt rather than before is deliberate: the
+ * purpose section 5.2 gives this table is that a message is not lost to an
+ * *email delivery failure*, and a delivery failure is something this code
+ * catches and then records. It does not survive the process dying mid-send —
+ * that would need a write before the attempt and a second one after, which is
+ * two round trips on every submission to insure against something that has not
+ * happened to a portfolio contact form yet.
+ */
+async function persist(row: {
+  name: string;
+  email: string;
+  message: string;
+  ipHash: string;
+  userAgent: string | null;
+  emailSent: boolean;
+}): Promise<void> {
+  if (!db) return;
+  try {
+    await db.insert(contactSubmissions).values(row);
+  } catch (cause) {
+    // Swallowed. The message may already have been delivered, and telling
+    // someone their message failed because a row did not insert would be a lie.
+    console.error("[contact] could not store submission", cause);
+  }
 }

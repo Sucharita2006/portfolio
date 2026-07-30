@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { profile } from "@/content/profile";
 import { SectionHeading } from "@/components/section-heading";
+import { GitHubPanel } from "@/components/github-panel";
+
+// The GitHub panel is the only time-varying thing on the site, and it lives here
+// rather than on the homepage (open question 5) - which is why this route
+// revalidates hourly and the homepage does not.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "About",
@@ -61,6 +67,8 @@ export default function About() {
           ))}
         </ul>
       </section>
+
+      <GitHubPanel />
 
       <p className="mt-14 border-t border-rule pt-8 text-ink-soft">
         The résumé has the same material in one page:{" "}

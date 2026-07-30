@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { work, getWork } from "@/content/work";
 import { StackTags } from "@/components/stack-tags";
+import { ViewCount } from "@/components/view-count";
+import { getViewCount } from "@/lib/views";
 
 // Every slug is known at build time, and dynamicParams: false is load-bearing
 // rather than tidy. Left at its default, an unknown slug would invoke this page,
@@ -12,6 +14,11 @@ import { StackTags } from "@/components/stack-tags";
 // unknown slugs never reach the page and resolve through the real not-found.tsx.
 // Verified both ways in Phase 4.
 export const dynamicParams = false;
+
+// The view count is read during generation, so the page needs regenerating for
+// it to move. An hour of staleness on a view counter is invisible; a database
+// round trip on every request to an otherwise-cached page is not.
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return work.map((item) => ({ slug: item.slug }));
@@ -47,6 +54,10 @@ export default async function CaseStudy({
   const { slug } = await params;
   const item = getWork(slug);
   if (!item) notFound();
+
+  // Read at generation time, not per request. Null when no database is
+  // configured, and the counter then renders nothing.
+  const views = await getViewCount(slug);
 
   // Previous and next by position in the work array, which is the order the
   // homepage shows. No wraparound: at either end the reader gets one link
@@ -150,6 +161,10 @@ export default async function CaseStudy({
           </Link>
         )}
       </nav>
+
+      <div className="mt-10">
+        <ViewCount slug={slug} count={views} />
+      </div>
     </article>
   );
 }
