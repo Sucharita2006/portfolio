@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="shell py-24">
       <h1 className="font-display text-hero">Sucharita Chattopadhyay</h1>
-      <p className="eyebrow mt-4">Scaffold · phase 2 of 10</p>
+      <p className="eyebrow mt-4">Scaffold · phase 4 of 10</p>
     </div>
   );
 }
