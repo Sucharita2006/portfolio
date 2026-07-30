@@ -162,6 +162,14 @@ export const work: WorkItem[] = [
         ],
       },
       {
+        heading: "The part that was actually hard",
+        body: [
+          "Falling back is easy. Deciding when to fall back is the part that took the time. A gateway that times out and a bank that declines a card arrive at the call site looking much the same — an attempt that did not succeed — and they mean opposite things. The first is worth retrying elsewhere. The second is a decision that has already been made correctly, and retrying it either repeats the decline on another provider or puts a second authorisation against a card that was only ever meant to be charged once. A chain that advances on every failure is not resilience; it is a way to turn one declined payment into three.",
+          "So the chain advances only on failures attributable to the gateway itself, which is why every attempt is recorded against a named provider rather than into a general bucket called 'payments'. Three levels is a ceiling rather than a target — each extra attempt adds latency to a checkout someone is watching, and a customer who waits eight seconds to be told no has had a worse time than one who waits two.",
+          "Gateway priority lives in the Redis config cache for the same reason the chain is bounded: the right order changes with reliability and with fee structure, and discovering mid-incident that reordering it needs a deploy is discovering it too late.",
+        ],
+      },
+      {
         heading: "Operations dashboard",
         body: [
           "I built the operator-facing side in React, TypeScript, and Tailwind: eight-plus real-time metrics across five visualisation components covering traffic, success and failure rates, latency, and per-gateway health, plus transaction search and filtering by gateway and status.",
@@ -194,6 +202,13 @@ export const work: WorkItem[] = [
         body: [
           "Node.js REST APIs process 150+ menu combinations into per-menu impact comparisons, so an owner can see what a specific substitution does rather than reading a general claim about plant-based food.",
           "The frontend is TypeScript, Next.js, React, and Tailwind, deployed on Vercel serverless with Git-based CI/CD for atomic zero-downtime releases — which mattered because the client was demoing the tool while I was still shipping to it.",
+        ],
+      },
+      {
+        heading: "The part that was actually hard",
+        body: [
+          "A single sustainability score is easy to compute and almost useless to act on. An owner deciding whether to change one item on a menu does not need their footprint; they need to know what that one change does to it. That turns the problem from a calculation into a comparison, and comparisons only hold if every combination is measured on the same basis — which is what makes 150+ of them a modelling requirement rather than a lookup table.",
+          "The other constraint was that the client demonstrated the tool while I was still shipping to it. That is why the zero-downtime release setup belongs in the section above rather than filed under infrastructure: it was not a nice property of the pipeline, it was the condition under which any deploy could happen at all. A failed release during a demo is not a rollback, it is a client watching the product break.",
         ],
       },
     ],
