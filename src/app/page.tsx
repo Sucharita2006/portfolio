@@ -3,6 +3,15 @@ import { work } from "@/content/work";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { WorkRow } from "@/components/work-row";
+import { ContactForm } from "@/components/contact-form";
+
+// Read from profile so no address is written twice on the site.
+const contactChannels = [
+  { label: profile.email, href: `mailto:${profile.email}`, external: false },
+  { label: "GitHub", href: profile.github, external: true },
+  { label: "LinkedIn", href: profile.linkedin, external: true },
+  { label: "Résumé (PDF)", href: profile.resumeHref, external: false },
+];
 
 // Fully static. F1 called for hourly revalidation because the GitHub panel lived
 // here; that moved to /about in review, so this page has no time-varying data at
@@ -85,6 +94,40 @@ export default function Home() {
             </div>
           </section>
         </div>
+      </Reveal>
+
+      {/*
+        The footer already says "Let's talk." on every route, so this section
+        does not repeat it — the eyebrow names the section and the form is the
+        invitation.
+      */}
+      <Reveal>
+        <section id="contact" className="shell py-16 md:py-20">
+          <SectionHeading>Contact</SectionHeading>
+          <div className="mt-8 grid gap-12 md:grid-cols-[1fr_auto] md:gap-16">
+            <ContactForm />
+
+            <div className="md:pt-1">
+              <p className="max-w-[34ch] text-[0.9375rem] leading-relaxed text-ink-soft">
+                Or skip the form. Email is read daily and is the fastest way to reach me.
+              </p>
+              <ul className="mt-5 space-y-2.5 text-[0.9375rem]">
+                {contactChannels.map((channel) => (
+                  <li key={channel.label}>
+                    <a
+                      href={channel.href}
+                      className="link-underline text-marine"
+                      target={channel.external ? "_blank" : undefined}
+                      rel={channel.external ? "noreferrer noopener" : undefined}
+                    >
+                      {channel.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
       </Reveal>
     </>
   );
